@@ -1,5 +1,6 @@
 from app import app
 from flask import request
+from flask import Response
 import csv
 import numpy
 
@@ -11,15 +12,25 @@ def obterNumeroPublicacoes():
     conferencia = request.args.get('conferencia')
     area = request.args.get('area')
 
-    path = '../data/'
-    nomeArquivo = path + area + '-out-papers.csv'
-    
+    if not conferencia or not area:
+        return Response(status=400)
+
     numPublicacoes = 0
 
-    with open(nomeArquivo, 'rb') as csvfile:
-        papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
-        for row in papers:
-            if (row[1] == conferencia):
-                numPublicacoes = numPublicacoes + 1
-    
-    return str(numPublicacoes)
+    try:
+        path = '../data/'
+        nomeArquivo = path + area + '-out-papers.csv'
+
+        with open(nomeArquivo, 'rb') as csvfile:
+            papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+            for row in papers:
+                if (row[1] == conferencia):
+                    numPublicacoes += 1
+    except FileNotFoundError:
+        return Response(status=404)
+        raise
+    except:
+        return Response(status=500)
+        raise
+    finally:
+        return str(numPublicacoes)
