@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from app import app
 from flask import request
+from os import path
 
 # servicos 3 e 4
 # 3. Scores de todos os departamentos em uma área
@@ -13,7 +14,7 @@ def obterScoresAreaPorDepartamento():
 	try:
 		area = request.args.get("area")
 		departamento = request.args.get("departamento")
-		if area == None:
+		if not area:
 			retorno += "Especifique na url /score?area=<area>&departamento=<departamento>(opcional)"
 		else:
 			retorno += "Obtendo scores para a área ".decode("utf8") + area
@@ -27,16 +28,22 @@ def obterScoresAreaPorDepartamento():
 	else:
 		app.logger.debug("Leitura da URL foi um sucesso!")
 	finally:
+		if not area:
+			retorno += "</h1>"
+			return retorno
 		retorno += "...</h1>"
 		try:
 			areaParaBusca = area.lower()
-			arquivo = open("..\\data\\" + areaParaBusca + "-out-scores.csv")
+			arquivo = open(path.join("..","data",areaParaBusca) + "-out-scores.csv")
 			retorno += "<h2>"
 			if not departamento:
 				retorno += arquivo.read().replace("\n","<br />")
 			else:
-				scoreUnico = filter(lambda linha: linha.find(departamento) == 0, arquivo)[0]
-				retorno += scoreUnico
+				scoreUnico = filter(lambda linha: linha.find(departamento+",") == 0, arquivo)
+				if not scoreUnico:
+					retorno += "Score não encontrado para o departamento ".decode("utf8") + departamento
+				else:
+					retorno += scoreUnico[0]
 			retorno += "</h2>"
 		except IOError:
 			retorno += "<h1>Scores não encontrados para a área ".decode("utf8") + area + "</h1>"
