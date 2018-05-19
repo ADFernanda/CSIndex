@@ -1,5 +1,5 @@
 from app import app
-from flask import request
+from flask import request, make_response
 from flask import Response
 import csv
 from os import path
@@ -26,7 +26,7 @@ def obterNumeroPublicacoesEmConferenciaEArea():
         return Response(status=404)        
     except:
         return Response(status=500)  
-    return str(numPublicacoes)
+    return (make_response(str(numPublicacoes)), 200, {"Content-Disposition": 'inline; filename="queryScores.csv"', "Content-Type": "text/csv"})
 
 # servico 2: Numero de publicacoes no conjunto de conferencias de uma area
 @app.route('/obterNumeroPublicacoesEmArea')
@@ -47,5 +47,5 @@ def obterNumeroPublicacoesEmArea():
     except IOError:
         return Response(status=404)        
     except:
-        return Response(status=500)  
-    return str(numPublicacoes)
+        return Response(status=500)
+    return (make_response(str(numPublicacoes)), 200, {"Content-Disposition": 'inline; filename="queryScores.csv"', "Content-Type": "text/csv"})
