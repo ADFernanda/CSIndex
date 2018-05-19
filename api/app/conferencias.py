@@ -2,7 +2,7 @@ from app import app
 from flask import request
 from flask import Response
 import csv
-import numpy
+from os import path
 
 # servicos 1 e 2 
 
@@ -18,8 +18,7 @@ def obterNumeroPublicacoes():
     numPublicacoes = 0
 
     try:
-        path = '../data/'
-        nomeArquivo = path + area + '-out-papers.csv'
+        nomeArquivo = path.join("..","data", area) + "-out-papers.csv"        
 
         with open(nomeArquivo, 'rb') as csvfile:
             papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
