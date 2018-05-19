@@ -17,22 +17,16 @@ def obterNumeroPublicacoesEmConferenciaEArea():
 
     try:
         nomeArquivo = path.join("..","data", area) + "-out-papers.csv"        
-
-        try:
-            with open(nomeArquivo, 'rb') as csvfile:
-                papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
-                for row in papers:
-                    if (row[1] == conferencia):
-                        numPublicacoes += 1
-        except FileNotFoundError:
-            return Response(status=404)
-            raise
-
+        with open(nomeArquivo, 'rb') as csvfile:
+            papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+            for row in papers:
+                if (row[1] == conferencia.upper()):
+                    numPublicacoes += 1
+    except IOError:
+        return Response(status=404)        
     except:
-        return Response(status=500)
-        raise
-    finally:
-        return str(numPublicacoes)
+        return Response(status=500)  
+    return str(numPublicacoes)
 
 # servico 2: Numero de publicacoes no conjunto de conferencias de uma area
 @app.route('/obterNumeroPublicacoesEmArea')
@@ -46,17 +40,12 @@ def obterNumeroPublicacoesEmArea():
 
     try:
         nomeArquivo = path.join("..","data", area) + "-out-papers.csv"        
-
-        try:
-            with open(nomeArquivo, 'rb') as csvfile:
-                papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
-                for row in papers:
-                    numPublicacoes += 1
-        except FileNotFoundError:
-            return Response(status=404)
-            raise
-    except Exception:
-        return Response(status=500)
-        raise
-    finally:
-        return str(numPublicacoes)
+        with open(nomeArquivo, 'rb') as csvfile:
+            papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+            for row in papers:
+                numPublicacoes += 1
+    except IOError:
+        return Response(status=404)        
+    except:
+        return Response(status=500)  
+    return str(numPublicacoes)
