@@ -35,9 +35,10 @@ def obterScoresAreaPorDepartamento():
 			if not departamento:
 				retorno += arquivo.read().replace("\n","<br />")
 			else:
-				retorno += "Em construção".decode("utf8")
+				scoreUnico = filter(lambda linha: linha.find(departamento) == 0, arquivo)[0]
+				retorno += scoreUnico
 			retorno += "</h2>"
-		except FileNotFoundError:
+		except IOError:
 			retorno += "<h1>Scores não encontrados para a área ".decode("utf8") + area + "</h1>"
 			app.logger.exception("Exceção disparada na leitura dos arquivos!")
 			raise
