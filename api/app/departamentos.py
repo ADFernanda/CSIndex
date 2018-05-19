@@ -9,7 +9,7 @@ from os import path
 # 4. Score de um determinado departamento em uma área.
 
 @app.route("/score")
-def obterScoresAreaPorDepartamento():
+def obterScoresEmAreaPorDepartamento():
 	retorno = "<h1>"
 	try:
 		area = request.args.get("area")
@@ -52,13 +52,13 @@ def obterScoresAreaPorDepartamento():
 			retorno += "</h2>"
 		except IOError:
 			retorno += "<h1>Scores não encontrados para a área ".decode("utf8") + area + "</h1>"
-			app.logger.exception("Exceção disparada na leitura dos arquivos!")
+			app.logger.exception("Exceção disparada na leitura do arquivo!")
 			raise
 		except:
-			app.logger.exception("Exceção disparada na leitura dos arquivos!")
+			app.logger.exception("Exceção disparada na leitura do arquivo!")
 			raise
 		else:
-			app.logger.debug("Leitura dos arquivos foi um sucesso!")
+			app.logger.debug("Leitura do arquivo foi um sucesso!")
 		finally:
 			if 'saida' in locals():
 				return saida
