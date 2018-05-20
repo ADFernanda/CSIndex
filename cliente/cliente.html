@@ -4,16 +4,6 @@
 <head>
   <meta charset="utf-8">
   <style>
-    table {
-      border-collapse: collapse;
-      border: 2px black solid;
-      font: 12px sans-serif;
-    }
-
-    td {
-      border: 1px black solid;
-      padding: 5px;
-    }
 
     div.container h1{
       font-size: 24px;
@@ -41,7 +31,7 @@
 
   <script>
     function arrayToTable(tableData) {
-      var table = $('<table></table>');
+      var table = $('<table class="table"></table>');
       $(tableData).each(function (i, rowData) {
         var row = $('<tr></tr>');
         $(rowData).each(function (j, cellData) {
