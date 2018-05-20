@@ -9,6 +9,10 @@
       font-size: 24px;
     }
 
+    div.container{
+      padding-bottom: 20px;
+    }
+
     div.container h2{
       font-size: 20px;
     }
@@ -31,7 +35,7 @@
 
   <script>
     function arrayToTable(tableData) {
-      var table = $('<table class="table"></table>');
+      var table = $('</h3> <table id="resultados"class="table"></table>');
       $(tableData).each(function (i, rowData) {
         var row = $('<tr></tr>');
         $(rowData).each(function (j, cellData) {
@@ -41,33 +45,22 @@
       });
       return table;
     }
-
-    function obterPapersEmArea(area) {
-      $.ajax({
-        type: "GET",
-        url: "http://127.0.0.1:5000/obterPapersEmArea?area=" + area,
-        success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
-        }
-      });
-    }
-
     function obterNumeroPublicacoesEmConferenciaEArea(area, conferencia) {
       $.ajax({
         type: "GET",
         url: "http://127.0.0.1:5000/obterNumeroPublicacoesEmConferenciaEArea?area=" + area + "&conferencia=" + conferencia,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
 
-    function obterNumeroPublicacoesEmConferenciaEArea(area, conferencia) {
+    function obterNumeroPublicacoesEmArea(area) {
       $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:5000/obterNumeroPublicacoesEmConferenciaEArea?area=" + area + "&conferencia=" + conferencia,
+        url: "http://127.0.0.1:5000/obterNumeroPublicacoesEmArea?area=" + area,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
@@ -77,7 +70,7 @@
         type: "GET",
         url: "http://127.0.0.1:5000/obterScoresEmArea?area=" + area,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
@@ -87,7 +80,8 @@
         type: "GET",
         url: "http://127.0.0.1:5000/obterScoreEmAreaEDepartamento?area=" + area + "&departamento=" + departamento,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $().replaceWith(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
@@ -97,7 +91,8 @@
         type: "GET",
         url: "http://127.0.0.1:5000/obterNumerosProfessoresEmArea?area=" + area,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $().replaceWith(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
@@ -107,7 +102,7 @@
         type: "GET",
         url: "http://127.0.0.1:5000/obterNumeroProfessoresEmAreaEDepartamento?area=" + area + "&departamento=" + departamento,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
@@ -117,7 +112,7 @@
         type: "GET",
         url: "http://127.0.0.1:5000/obterPapersEmArea?area=" + area,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
@@ -127,7 +122,7 @@
         type: "GET",
         url: "http://127.0.0.1:5000/obterPapersEmAreaEmAno?area=" + area + "&ano=" + ano,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
@@ -137,7 +132,7 @@
         type: "GET",
         url: "http://127.0.0.1:5000/obterPapersEmAreaEmDepartamento?area=" + area + "&departamento=" + departamento,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
@@ -147,7 +142,7 @@
         type: "GET",
         url: "http://127.0.0.1:5000/obterPapersDeProfessor?professor=" + professor,
         success: function (data) {
-          $('body').append(arrayToTable(Papa.parse(data).data));
+          $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
         }
       });
     }
@@ -333,6 +328,7 @@
       </div>
     </div>
   </div>
+  <div id="resultados"></div>
 </body>
 
 </html>
