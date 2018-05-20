@@ -1,5 +1,5 @@
-from app import app
-from flask import request, make_response
+from app import app, util
+from flask import request
 from flask import Response
 import csv
 from os import path
@@ -16,8 +16,7 @@ def obterNumeroPublicacoesEmConferenciaEArea():
     numPublicacoes = 0
 
     try:
-        nomeArquivo = path.join("..","data", area) + "-out-papers.csv"        
-        with open(nomeArquivo, 'rb') as csvfile:
+        with util.abreCSVAreaOutSufixo(area,"papers")  as csvfile:
             papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
             for row in papers:
                 if (row[1] == conferencia.upper()):
@@ -26,7 +25,7 @@ def obterNumeroPublicacoesEmConferenciaEArea():
         return Response(status=404)        
     except:
         return Response(status=500)  
-    return (make_response(str(numPublicacoes)), 200, {"Content-Disposition": 'inline; filename="queryScores.csv"', "Content-Type": "text/csv"})
+    return util.montaRespostaCSV(str(numPublicacoes), "obterNumeroPublicacoesEmConferenciaEArea")
 
 # servico 2: Numero de publicacoes no conjunto de conferencias de uma area
 @app.route('/obterNumeroPublicacoesEmArea')
@@ -39,8 +38,7 @@ def obterNumeroPublicacoesEmArea():
     numPublicacoes = 0
 
     try:
-        nomeArquivo = path.join("..","data", area) + "-out-papers.csv"        
-        with open(nomeArquivo, 'rb') as csvfile:
+        with util.abreCSVAreaOutSufixo(area,"papers") as csvfile:
             papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
             for row in papers:
                 numPublicacoes += 1
@@ -48,4 +46,4 @@ def obterNumeroPublicacoesEmArea():
         return Response(status=404)        
     except:
         return Response(status=500)
-    return (make_response(str(numPublicacoes)), 200, {"Content-Disposition": 'inline; filename="queryScores.csv"', "Content-Type": "text/csv"})
+    return util.montaRespostaCSV(str(numPublicacoes), "obterNumeroPublicacoesEmArea")

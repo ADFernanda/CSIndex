@@ -37,7 +37,7 @@
   <script>
     function exibeResultado(data) {
       $('#resultados').replaceWith(arrayToTable(Papa.parse(data).data));
-      location.href = "#heading10";
+      location.href = "#resultados";
     }
 
     function arrayToTable(tableData) {

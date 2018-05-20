@@ -1,5 +1,5 @@
-from app import app
-from flask import request, make_response
+from app import app, util
+from flask import request
 from flask import Response
 import csv
 from os import path
@@ -13,14 +13,13 @@ def obterPapersEmArea():
         return Response(status=400)
 
     try:
-        nomeArquivo = path.join("..","data", area) + "-out-papers.csv"        
-        csvfile =  open(nomeArquivo)
+        csvfile =  util.abreCSVAreaOutSufixo(area,"papers")    
         saida = csvfile.read()
     except IOError:
         return Response(status=404)        
     except:
         return Response(status=500)
-    return (make_response(saida), 200, {"Content-Disposition": 'inline; filename="obterPapersEmArea.csv"', "Content-Type": "text/csv"})
+    return util.montaRespostaCSV(saida, "obterPapersEmArea")
 
 # 8. Todos os papers de uma area em um determinado ano
 @app.route('/obterPapersEmAreaEmAno')
@@ -33,8 +32,7 @@ def obterPapersEmAreaEmAno():
 
     try:
         retorno=''
-        nomeArquivo = path.join("..","data", area) + "-out-papers.csv"   
-        with open(nomeArquivo, 'rb') as csvfile:
+        with util.abreCSVAreaOutSufixo(area,"papers")  as csvfile:
             papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
             for row in papers:
                 if (row[0] == ano):
@@ -45,7 +43,7 @@ def obterPapersEmAreaEmAno():
         return Response(status=404)        
     except:
         return Response(status=500)
-    return (make_response(retorno), 200, {"Content-Disposition": 'inline; filename="obterPapersEmAreaEmAno.csv"', "Content-Type": "text/csv"})
+    return util.montaRespostaCSV(retorno, "obterPapersEmAreaEmAno")
 
 # 9. Todos os papers de um departamento em uma area
 @app.route('/obterPapersEmAreaEmDepartamento')
@@ -58,8 +56,7 @@ def obterPapersEmAreaEmDepartamento():
 
     try:
         retorno=''
-        nomeArquivo = path.join("..","data", area) + "-out-papers.csv"   
-        with open(nomeArquivo, 'rb') as csvfile:
+        with util.abreCSVAreaOutSufixo(area,"papers")  as csvfile:
             papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
             for row in papers:
                 if (row[3] == departamento):
@@ -70,7 +67,7 @@ def obterPapersEmAreaEmDepartamento():
         return Response(status=404)        
     except:
         return Response(status=500)
-    return (make_response(retorno), 200, {"Content-Disposition": 'inline; filename="obterPapersEmAreaEmAno.csv"', "Content-Type": "text/csv"})
+    return util.montaRespostaCSV(retorno, "obterPapersEmAreaEmDepartamento")
 
 # 10. Todos os papers de um professor (dado o seu nome)
 @app.route('/obterPapersDeProfessor')
@@ -88,4 +85,4 @@ def obterPapersDeProfessor():
         return Response(status=404)        
     except:
         return Response(status=500)
-    return (make_response(saida), 200, {"Content-Disposition": 'inline; filename="obterPapersDeProfessor.csv"', "Content-Type": "text/csv"})
+    return util.montaRespostaCSV(saida, "obterPapersDeProfessor")

@@ -16,7 +16,7 @@ def obterNumerosProfessoresEmArea():
 		return Response(status=404)
 	conteudoArquivo = arquivo.read()
 	arquivo.close()
-	return util.montaRespostaCSV(conteudoArquivo, "queryNumerosProfessores")
+	return util.montaRespostaCSV(conteudoArquivo, "obterNumerosProfessoresEmArea")
 
 
 @app.route("/obterNumeroProfessoresEmAreaEDepartamento")
@@ -33,4 +33,4 @@ def obterNumeroProfessoresEmAreaEDepartamento():
 	if not achaDepartamento:
 		return Response(status=404)
 	arquivo.close()
-	return util.montaRespostaCSV(achaDepartamento[0], "queryNumeroProfessores")
+	return util.montaRespostaCSV(achaDepartamento[0], "obterNumeroProfessoresEmAreaEDepartamento")

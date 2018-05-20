@@ -16,7 +16,7 @@ def obterScoresEmArea():
 		return Response(status=404)
 	conteudoArquivo = arquivo.read()
 	arquivo.close()
-	return util.montaRespostaCSV(conteudoArquivo, "queryScores")
+	return util.montaRespostaCSV(conteudoArquivo, "obterScoresEmArea")
 
 
 @app.route("/obterScoreEmAreaEDepartamento")
@@ -33,4 +33,4 @@ def obterScoreEmAreaEDepartamento():
 	if not achaDepartamento:
 		return Response(status=404)
 	arquivo.close()
-	return util.montaRespostaCSV(achaDepartamento[0], "queryScore")
+	return util.montaRespostaCSV(achaDepartamento[0], "obterScoreEmAreaEDepartamento")
