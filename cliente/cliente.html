@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    table {
+      border-collapse: collapse;
+      border: 2px black solid;
+      font: 12px sans-serif;
+    }
+
+    td {
+      border: 1px black solid;
+      padding: 5px;
+    }
+
+    div.container h1{
+      font-size: 24px;
+    }
+
+    div.container h2{
+      font-size: 20px;
+    }
+
+    a{
+      cursor: pointer;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <script>
+    function arrayToTable(tableData) {
+      var table = $('<table></table>');
+      $(tableData).each(function (i, rowData) {
+        var row = $('<tr></tr>');
+        $(rowData).each(function (j, cellData) {
+          row.append($('<td>' + cellData + '</td>'));
+        });
+        table.append(row);
+      });
+      return table;
+    }
+
+    function obterPapersEmArea(area) {
+      $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:5000/obterPapersEmArea?area=" + area,
+        success: function (data) {
+          $('body').append(arrayToTable(Papa.parse(data).data));
+        }
+      });
+    }
+
+    function obterNumeroPublicacoesEmConferenciaEArea(area, conferencia) {
+      $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:5000/obterNumeroPublicacoesEmConferenciaEArea?area=" + area + "&conferencia=" + conferencia,
+        success: function (data) {
+          $('body').append(arrayToTable(Papa.parse(data).data));
+        }
+      });
+    }
+
+    function obterNumeroPublicacoesEmConferenciaEArea(area, conferencia) {
+      $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:5000/obterNumeroPublicacoesEmConferenciaEArea?area=" + area + "&conferencia=" + conferencia,
+        success: function (data) {
+          $('body').append(arrayToTable(Papa.parse(data).data));
+        }
+      });
+    }
+
+    function obterScoresEmAreaPorDepartamento(area, departamento) {
+      $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:5000/obterScoresEmAreaPorDepartamento?area=" + area + "&departamento=" + departamento,
+        success: function (data) {
+          $('body').append(arrayToTable(Papa.parse(data).data));
+        }
+      });
+    }
+
+  </script>
+  <div class="container">
+    <h1 align="center">Trabalho prático 1 da disciplina ES2</h1>
+    <div>
+      <h2>Escolha um serviço:</h2>
+
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                1. Número de publicações em uma determinada conferência de uma área
+              </button>
+            </h5>
+          </div>
+      
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              <span>Selecione uma das opções:</span><br>
+              <a onClick="obterNumeroPublicacoesEmConferenciaEArea('ai', 'GECCO')">área "ai", conferência "GECCO"</a><br>
+              <a onClick="obterNumeroPublicacoesEmConferenciaEArea('arch', 'HPCA')">área "arch", conferência "HPCA"</a><br> 
+              <a onClick="obterNumeroPublicacoesEmConferenciaEArea('chi', 'GECCO')">área "chi", conferência "GECCO"</a>   
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                2. Número de publicações no conjunto de conferências de uma área
+              </button>
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+                <span>Selecione uma das opções:</span><br>
+                <a onClick="obterNumeroPublicacoesEmArea('ai')">área "ai"</a><br>
+                <a onClick="obterNumeroPublicacoesEmArea('arch')">área "arch"</a><br> 
+                <a onClick="obterNumeroPublicacoesEmArea('chi')">área "chi"</a>   
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                3. Scores de todos os departamentos em uma área
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+                <span>Selecione uma das opções:</span><br>
+                <a onClick="obterScoresEmAreaPorDepartamento('ai', 'GECCO')">área "ai", conferência "GECCO"</a><br>
+                <a onClick="obterScoresEmAreaPorDepartamento('arch', 'HPCA')">área "arch", conferência "HPCA"</a><br> 
+                <a onClick="obterScoresEmAreaPorDepartamento('chi', 'GECCO')">área "chi", conferência "GECCO"</a>     
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                4. Score de um determinado departamento em uma área
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              <a onClick="obterPapersEmArea('ai')">Exibir papers da área "ai"</a>  
+              <a onClick="obterPapersEmArea('arch')">Exibir papers da área "arch"</a>  
+              <a onClick="obterPapersEmArea('chi')">Exibir papers da área "chi"</a>  
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                5. Número de professores que publicam em uma determinada área (organizados por departamentos)
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                6. Número de professores de um determinado departamento que publicam em uma área
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                7. Todos os papers de uma área (ano, título, deptos e autores)
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                8. Todos os papers de uma área em um determinado ano
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                9. Todos os papers de um departamento em uma área
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                10. Todos os papers de um professor (dado o seu nome)
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
