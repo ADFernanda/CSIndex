@@ -81,7 +81,6 @@ def obterPapersDeProfessor():
         return Response(status=400)
 
     try:
-        retorno=''
         nomeArquivo = path.join("..","data","profs", "search", professor) + ".csv"   
         csvfile =  open(nomeArquivo)
         saida = csvfile.read()
