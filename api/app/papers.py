@@ -13,8 +13,11 @@ def obterPapersEmArea():
         return Response(status=400)
 
     try:
-        csvfile =  util.abreCSVAreaOutSufixo(area,"papers")    
-        saida = csvfile.read()
+        saida = ''
+        with util.abreCSVAreaOutSufixo(area,"papers")  as csvfile:
+            papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+            for row in papers:
+                    saida +=  row[0] + ',' + row[2] + ',' + row[3] + ',' + row[4] + '\n'
     except IOError:
         return Response(status=404)        
     except:
@@ -36,9 +39,7 @@ def obterPapersEmAreaEmAno():
             papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
             for row in papers:
                 if (row[0] == ano):
-                    line = str(row)
-                    line = line.replace("'","")
-                    retorno += str(line[1:-1]) + '\n'
+                    retorno +=  row[0] + ',' + row[2] + ',' + row[3] + ',' + row[4] + '\n'
     except IOError:
         return Response(status=404)        
     except:
@@ -60,9 +61,7 @@ def obterPapersEmAreaEmDepartamento():
             papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
             for row in papers:
                 if (row[3] == departamento):
-                    line = str(row)
-                    line = line.replace("'","")
-                    retorno += str(line[1:-1]) + '\n'
+                    retorno +=  row[0] + ',' + row[2] + ',' + row[3] + ',' + row[4] + '\n'
     except IOError:
         return Response(status=404)        
     except:
@@ -80,7 +79,11 @@ def obterPapersDeProfessor():
     try:
         nomeArquivo = path.join("..","data","profs", "search", professor) + ".csv"   
         csvfile =  open(nomeArquivo)
-        saida = csvfile.read()
+        saida = ''
+        with csvfile  as csvfile:
+            papers = csv.reader(csvfile, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+            for row in papers:
+                    saida +=  row[0] + ',' + row[1] + ',' + row[2] + ',' + row[3] + '\n'
     except IOError:
         return Response(status=404)        
     except:
